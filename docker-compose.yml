@@ -1,0 +1,22 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.5
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: toy_app
+      POSTGRES_PASSWORD: 'UO4ZLBhoxT9Z1AEcRjPJPp4W5ylRI5qKEoV'
+
+  web:
+    build: .
+    command: bin/rails server --port 3000 --binding 0.0.0.0
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    environment:
+      DATABASE_URL: postgresql://toy_app:UO4ZLBhoxT9Z1AEcRjPJPp4W5ylRI5qKEoV@db:5432
+      RAILS_ENV: development
+    volumes:
+      - .:/app
